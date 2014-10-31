@@ -1,6 +1,7 @@
 express = require 'express'
 http = require 'http'
 RSVP = require 'rsvp'
+compression = require 'compression'
 
 socket = require './socket'
 
@@ -11,6 +12,8 @@ module.exports = (config) ->
 
   http = http.Server app
   app.set 'http', http
+
+  app.use compression()
 
   socket app
 
