@@ -16,12 +16,14 @@ module.exports = (grunt) ->
     express:
       development:
         options:
+          node_env: 'development'
           port: config.port
           opts: ['node_modules/coffee-script/bin/coffee']
           script: 'server.coffee'
 
       production:
         options:
+          node_env: 'production'
           port: config.port
           opts: ['node_modules/coffee-script/bin/coffee']
           script: 'server.coffee'

@@ -24,6 +24,11 @@
     "grunt-exec": "^0.4.6",
     "grunt-cli": "^0.1.13",
     "grunt-express-server": "^0.4.19",
-    "request": "^2.47.0"
+    "request": "^2.47.0",
+    "broccoli-coffee": "^0.1.2",
+    "broccoli-requirejs": "0.0.2",
+    "requirejs": "^2.1.15",
+    "broccoli-browserify": "^0.1.0",
+    "broccoli-uglify-js": "^0.1.3"
   }
 }
