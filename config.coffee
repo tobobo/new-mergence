@@ -1,4 +1,5 @@
 module.exports = (env) ->
+  env: env
   root: __dirname
   port: process.env.PORT or 8000
   build:
