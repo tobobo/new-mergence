@@ -13,5 +13,7 @@ io.on 'connection', (socket) ->
     socket.broadcast.emit 'change background',
       for: 'everyone'
 
-http.listen 8000, ->
-  console.log 'listening on port', 8000
+port = process.env.PORT or 8000
+
+http.listen port, ->
+  console.log 'listening on port', port
