@@ -8,7 +8,7 @@ class Mergence
     @kickstartAudioContext()
 
   initTone: ->
-    @env = new Tone.Envelope 0.05, 0.01, 0.25, 0.4
+    @env = new Tone.Envelope 0.05, 4.5, 0.15, 0.4
     @osc = new Tone.Oscillator 220, 'square'
 
     @setBackgroundColor 'FFFFFF'
@@ -52,7 +52,7 @@ class Mergence
     @noteTimeout = setTimeout =>
       @noteOn = false
       @env.triggerRelease();
-    , 500
+    , 3000
 
   clearNoteTimeout: ->
     clearTimeout @noteTimeout
