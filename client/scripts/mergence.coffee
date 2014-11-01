@@ -11,8 +11,16 @@ class Mergence
     window.addEventListener "click", @handleClick.bind(@)
     window.addEventListener "touchstart", @handleClick.bind(@)
 
+    window.addEventListener 'touchstart', ->
+      myContext = new AudioContext()
+      buffer = myContext.createBuffer 1, 1, 22050
+      source = myContext.createBufferSource()
+      source.buffer = buffer
+      source.connect myContext.destination
+      source.noteOn 0
+
   initTone: ->
-    @env = new Tone.Envelope 0.05, 0.01, 0.4, 0.4
+    @env = new Tone.Envelope 0.05, 0.01, 0.25, 0.4
     @osc = new Tone.Oscillator 220, 'square'
 
     @setBackgroundColor 'FFFFFF'
@@ -29,6 +37,7 @@ class Mergence
     @changeBackgroundColor()
 
     @env.triggerAttack();
+
     if @noteOn
       @clearNoteTimeout()
       @setNoteTimeout()
