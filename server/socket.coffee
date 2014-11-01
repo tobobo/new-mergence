@@ -6,8 +6,8 @@ module.exports = (app) ->
 
     socket.on 'click', ->
       console.log "#{socket.id} clicked"
-      
-      socket.broadcast.emit 'change background',
+
+      socket.broadcast.emit 'someone clicked',
         for: 'everyone'
 
     socket.on 'disconnect', ->

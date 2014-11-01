@@ -1,0 +1,14 @@
+{
+  "name": "tone",
+  "homepage": "https://github.com/TONEnoTONE/Tone.js",
+  "_release": "15b43ad592",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "15b43ad592c9d1664249c40cff3da7c519f7e86e"
+  },
+  "_source": "git://github.com/TONEnoTONE/Tone.js.git",
+  "_target": "*",
+  "_originalSource": "tone",
+  "_direct": true
+}

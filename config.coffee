@@ -8,4 +8,12 @@ module.exports = (env) ->
     directory: __dirname + '/dist'
     vendorScriptFiles: [
       'bower_components/socket.io-client/socket.io.js'
+    ],
+    toneFiles: [
+      'core/Tone.js',
+      'core/Master.js',
+      'source/Source.js',
+      'signal/Signal.js',
+      'source/Oscillator.js',
+      'component/Envelope.js'
     ]

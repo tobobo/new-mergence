@@ -14,6 +14,11 @@ module.exports = (app) ->
     publicDirectoryPath = buildOptions.directory
 
     vendorScriptFiles = buildOptions.vendorScriptFiles or []
+    toneFiles = buildOptions.toneFiles or []
+
+    toneFiles.forEach (file) ->
+      vendorScriptFiles.push 'bower_components/tone/Tone/' + file
+
     scripts = buildOptions.scripts or 'client/scripts'
     styles = buildOptions.styles or 'client/styles'
 
