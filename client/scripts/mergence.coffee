@@ -3,21 +3,9 @@ class Mergence
     @socket = io()
     @socket.on "someone clicked", @someoneClicked.bind(@)
 
-    @initClickEvents()
-
     @initTone()
-
-  initClickEvents: ->
-    window.addEventListener "click", @handleClick.bind(@)
-    window.addEventListener "touchstart", @handleClick.bind(@)
-
-    window.addEventListener 'touchstart', ->
-      myContext = new AudioContext()
-      buffer = myContext.createBuffer 1, 1, 22050
-      source = myContext.createBufferSource()
-      source.buffer = buffer
-      source.connect myContext.destination
-      source.noteOn 0
+    @initClickEvents()
+    @kickstartAudioContext()
 
   initTone: ->
     @env = new Tone.Envelope 0.05, 0.01, 0.25, 0.4
@@ -29,6 +17,21 @@ class Mergence
     @osc.toMaster()
     @osc.start()
 
+
+  initClickEvents: ->
+    window.addEventListener "click", @handleClick.bind(@)
+    window.addEventListener "touchstart", @handleClick.bind(@)
+
+  kickstartAudioContext: ->
+    window.addEventListener 'touchstart', ->
+      context = Tone.context
+      buffer = context.createBuffer 1, 1, 22050
+      source = context.createBufferSource()
+      source.buffer = buffer
+      source.connect context.destination
+      source.noteOn 0
+    , false
+
   handleClick: ->
     @osc.start()
     @socket.emit "click"
@@ -36,7 +39,7 @@ class Mergence
   someoneClicked: ->
     @changeBackgroundColor()
 
-    @env.triggerAttack();
+    @env.triggerAttack()
 
     if @noteOn
       @clearNoteTimeout()
