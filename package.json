@@ -33,6 +33,7 @@
     "compression": "^1.2.0",
     "tone": "^0.2.0",
     "underscore": "^1.7.0",
-    "broccoli-string-replace": "0.0.2"
+    "broccoli-string-replace": "0.0.2",
+    "broccoli-slow-trees": "^1.0.0"
   }
 }

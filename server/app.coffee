@@ -2,6 +2,7 @@ express = require 'express'
 http = require 'http'
 RSVP = require 'rsvp'
 compression = require 'compression'
+broccoliBuildToFolder = require('./utils/broccoli_build_to_folder')
 
 socket = require './socket'
 
@@ -23,13 +24,17 @@ module.exports = (config) ->
 
   app.use express.static(app.get('config').build.directory)
 
-  buildFrontend = require('./broccoli_build') app
-
   app.set 'startServer', ->
     RSVP.resolve().then ->
-      buildFrontend()
+      broccoliTree = require('./broccoli_tree') app
+      publicDirectoryPath = app.get('config').build?.directory
 
-    .then ->
+      broccoliBuildToFolder broccoliTree, publicDirectoryPath
+
+    .then (logBuildResult) ->
+      console.log '\nfrontend build complete'
+      logBuildResult()
+
       port = process.env.PORT or 8000
       app.get('http').listen port, ->
         console.log 'listening on port', port
