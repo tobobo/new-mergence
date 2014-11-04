@@ -6,15 +6,13 @@ module.exports = (env) ->
   url: process.env.MERGENCE_URL or "http://localhost:#{port}"
   build:
     directory: __dirname + '/dist'
-    vendorScriptFiles: [
-      'bower_components/socket.io-client/socket.io.js',
-      'bower_components/underscore/underscore-min.js'
-    ],
-    toneFiles: [
-      'core/Tone.js',
-      'core/Master.js',
-      'source/Source.js',
-      'signal/Signal.js',
-      'source/Oscillator.js',
-      'component/Envelope.js'
-    ]
+    vendorScriptFiles:
+      'bower_components': [
+        'socket.io-client/socket.io.js',
+        'underscore/underscore-min.js',
+        'tone/Tone':
+          'core': ['Tone.js', 'Master.js']
+          'source': ['Source.js', 'Oscillator.js']
+          'signal': ['Signal.js']
+          'component': ['Envelope.js']
+      ]

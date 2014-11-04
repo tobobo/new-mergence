@@ -1,8 +1,8 @@
-# server
+#server
 
 _ = require 'underscore'
 
-# server
+#/server
 
 class BaseModel
 

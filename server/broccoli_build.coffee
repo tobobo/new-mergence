@@ -7,6 +7,8 @@ browserify = require 'broccoli-browserify'
 uglifyJS = require 'broccoli-uglify-js'
 replace = require 'broccoli-string-replace'
 broccoliBuildToFolder = require './utils/broccoli_build_to_folder'
+fileListFromObject = require './utils/file_list_from_object'
+_ = require 'underscore'
 
 module.exports = (app) ->
   ->
@@ -17,8 +19,7 @@ module.exports = (app) ->
     vendorScriptFiles = buildOptions.vendorScriptFiles or []
     toneFiles = buildOptions.toneFiles or []
 
-    toneFiles.forEach (file) ->
-      vendorScriptFiles.push 'bower_components/tone/Tone/' + file
+    vendorFileList = fileListFromObject vendorScriptFiles
 
     shared = buildOptions.shared or 'shared'
     scripts = buildOptions.scripts or 'client/scripts'
@@ -32,7 +33,7 @@ module.exports = (app) ->
     shared = replace shared,
       files: ['model.coffee']
       patterns: [
-        match: /# server[\s\S]*# server/g
+        match: /#server[\s\S]+#\/server/g
         replacement: ''
       ]
 
@@ -49,7 +50,7 @@ module.exports = (app) ->
       outputFile: './app.js'
 
     vendorScripts = concat '.',
-      inputFiles: vendorScriptFiles
+      inputFiles: vendorFileList
       outputFile: '/vendor.js'
 
     if config.env == 'production'
