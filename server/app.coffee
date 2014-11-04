@@ -27,8 +27,7 @@ module.exports = (config) ->
   app.set 'startServer', ->
     RSVP.resolve().then ->
       broccoliTree = require('./broccoli_tree') app
-      publicDirectoryPath = app.get('config').build?.directory
-
+      publicDirectoryPath = app.get('config').build.directory
       broccoliBuildToFolder broccoliTree, publicDirectoryPath
 
     .then (logBuildResult) ->
