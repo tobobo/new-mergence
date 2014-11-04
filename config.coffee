@@ -9,7 +9,7 @@ module.exports = (env) ->
     vendorScriptFiles:
       'bower_components': [
         'socket.io-client/socket.io.js',
-        'underscore/underscore-min.js',
+        'underscore/underscore.js',
         'tone/Tone':
           'core': ['Tone.js', 'Master.js']
           'source': ['Source.js', 'Oscillator.js']

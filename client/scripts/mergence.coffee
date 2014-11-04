@@ -1,32 +1,31 @@
+_ = require 'underscore'
+
 module.exports = (app) ->
 
   Model = require './shared/model'
 
-  class Mergence
-    constructor: ->
-      @socket = io()
-      @socket.on "someone clicked", @someoneClicked.bind(@)
+  class Mergence extends Model
+    initSocket: Model.on 'init', ->
+      @set 'socket', io()
+      @get('socket').on "someone clicked", _.bind(@get('someoneClicked'), @)
 
-      @initTone()
-      @initClickEvents()
-      @kickstartAudioContext()
+    initTone: Model.on 'init', ->
+      @set 'envelope', new Tone.Envelope(0.05, 4.5, 0.15, 0.4)
+      @set 'osc', new Tone.Oscillator(220, 'square')
 
-    initTone: ->
-      @env = new Tone.Envelope 0.05, 4.5, 0.15, 0.4
-      @osc = new Tone.Oscillator 220, 'square'
+      @get('envelope').connect @get('osc').output.gain
 
-      @setBackgroundColor 'FFFFFF'
-      @env.connect @osc.output.gain
+      @get('osc').toMaster()
+      @get('osc').start()
 
-      @osc.toMaster()
-      @osc.start()
+    initColor: Model.on 'init', ->
+      @set 'backgroundColor', 'FFFFFF'
 
-
-    initClickEvents: ->
+    initClickEvents: Model.on 'init', ->
       window.addEventListener "click", @handleClick.bind(@)
       window.addEventListener "touchstart", @handleClick.bind(@)
 
-    kickstartAudioContext: ->
+    kickstartAudioContext: Model.on 'init', ->
       window.addEventListener 'touchstart', ->
         context = Tone.context
         buffer = context.createBuffer 1, 1, 22050
@@ -34,44 +33,42 @@ module.exports = (app) ->
         source.buffer = buffer
         source.connect context.destination
         source.noteOn 0
+        source.noteOff 0
       , false
 
     handleClick: ->
-      @osc.start()
-      @socket.emit "click"
+      @get('socket').emit "click"
 
     someoneClicked: ->
-      @changeBackgroundColor()
+      @toggleBackgroundColor()
 
-      @env.triggerAttack()
+      @get('envelope').triggerAttack()
 
-      if @noteOn
+      if @get 'noteOn'
         @clearNoteTimeout()
         @setNoteTimeout()
       else
-        @noteOn = true
+        @set 'noteOn', true
         @setNoteTimeout()
 
     setNoteTimeout: ->
-      @noteTimeout = setTimeout =>
+      noteTimeout = setTimeout =>
         @noteOn = false
-        @env.triggerRelease();
+        @get('envelope').triggerRelease();
       , 3000
+      @set 'noteTimeout', noteTimeout
 
     clearNoteTimeout: ->
-      clearTimeout @noteTimeout
+      clearTimeout @get('noteTimeout')
 
-    setBackgroundColor: (color) ->
-      @backgroundColor = color
-      document.body.style.backgroundColor = "##{color}"
-
-    getBackgroundColor: ->
-      @backgroundColor
-
-    changeBackgroundColor: ->
-      if @backgroundColor is 'FFFFFF'
-        @setBackgroundColor '000000'
+    toggleBackgroundColor: ->
+      if @get('backgroundColor') == 'FFFFFF'
+        @set 'backgroundColor', '000000'
       else
-        @setBackgroundColor 'FFFFFF'
+        @set 'backgroundColor', 'FFFFFF'
+
+    updateWindowBackgroundColor: Model.observe 'backgroundColor', ->
+      document.body.style.backgroundColor = "##{@get('backgroundColor')}"
+
 
   return Mergence
