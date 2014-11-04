@@ -5,6 +5,7 @@ pickFiles = require 'broccoli-static-compiler'
 filterCoffeescript = require 'broccoli-coffee'
 browserify = require 'broccoli-browserify'
 uglifyJS = require 'broccoli-uglify-js'
+replace = require 'broccoli-string-replace'
 broccoliBuildToFolder = require './utils/broccoli_build_to_folder'
 
 module.exports = (app) ->
@@ -19,6 +20,7 @@ module.exports = (app) ->
     toneFiles.forEach (file) ->
       vendorScriptFiles.push 'bower_components/tone/Tone/' + file
 
+    shared = buildOptions.shared or 'shared'
     scripts = buildOptions.scripts or 'client/scripts'
     styles = buildOptions.styles or 'client/styles'
 
@@ -26,6 +28,19 @@ module.exports = (app) ->
       srcDir: '/'
       files: ['**/*.html']
       destDir: '/'
+
+    shared = replace shared,
+      files: ['model.coffee']
+      patterns: [
+        match: /# server[\s\S]*# server/g
+        replacement: ''
+      ]
+
+    wrappedShared = pickFiles shared,
+      srcDir: '/'
+      destDir: '/shared'
+
+    scripts = mergeTrees [wrappedShared, scripts]
 
     scripts = filterCoffeescript scripts
 

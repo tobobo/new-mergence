@@ -7,7 +7,7 @@ module.exports = (grunt) ->
   grunt.initConfig
     watch:
       server:
-        files: ['client/**/*', 'server/**/*', 'server.coffee', 'config.coffee']
+        files: ['client/**/*', 'server/**/*', 'shared/**/*', 'server.coffee', 'config.coffee']
         tasks: 'express:development'
         options:
           spawn: false

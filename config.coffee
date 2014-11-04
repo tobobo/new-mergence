@@ -7,7 +7,8 @@ module.exports = (env) ->
   build:
     directory: __dirname + '/dist'
     vendorScriptFiles: [
-      'bower_components/socket.io-client/socket.io.js'
+      'bower_components/socket.io-client/socket.io.js',
+      'bower_components/underscore/underscore-min.js'
     ],
     toneFiles: [
       'core/Tone.js',
