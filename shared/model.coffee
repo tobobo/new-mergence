@@ -34,7 +34,7 @@ class Model extends BaseModel
   _handlers: {}
 
   constructor: (values) ->
-    _.extend @, values
+    @setProperties values
     @_bindEvents()
     @trigger 'init'
 
