@@ -14,7 +14,6 @@ module.exports = (config) ->
 
   http = http.Server app
   app.set 'http', http
-  app.use compression()
   socket app
 
   unless app.get('config')?.build?.directory?
@@ -23,7 +22,12 @@ module.exports = (config) ->
 
   buildDirectory = path.resolve config.root, config.build.directory
 
-  app.use express.static(buildDirectory)
+  app.use compression()
+
+  app.use express.static(path.join(buildDirectory, 'assets'),
+    maxAge: 86400000
+  )
+  app.use express.static(buildDirectory, { maxAge: 0 })
 
   app.set 'startServer', ->
     RSVP.resolve().then ->

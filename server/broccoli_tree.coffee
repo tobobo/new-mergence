@@ -60,12 +60,17 @@ module.exports = (app) ->
     inputFiles: ['**/*.css']
     outputFile: '/app.css'
 
-  merged = mergeTrees [
-    html
+  assets = mergeTrees [
     scripts
     vendorScripts
     styles
   ]
+
+  assets = pickFiles assets,
+    srcDir: '/'
+    destDir: '/assets'
+
+  merged = mergeTrees [assets, html]
 
   assetRev merged,
     extensions: ['js', 'css', 'png', 'jpg', 'gif']
