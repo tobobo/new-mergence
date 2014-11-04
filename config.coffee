@@ -4,7 +4,7 @@ module.exports = (env) ->
   env: env
   root: root
   port: port
-  serverListenMessage: "listening on port #{port}..." 
+  serverListenMessage: "listening on port #{port}..."
   url: process.env.MERGENCE_URL or "http://localhost:#{port}"
   build:
     directory: './dist'

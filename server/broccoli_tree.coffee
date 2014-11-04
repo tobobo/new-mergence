@@ -6,6 +6,7 @@ filterCoffeescript = require 'broccoli-coffee'
 browserify = require 'broccoli-browserify'
 uglifyJS = require 'broccoli-uglify-js'
 replace = require 'broccoli-string-replace'
+assetRev = require 'broccoli-asset-rev'
 fileListFromObject = require './utils/file_list_from_object'
 
 module.exports = (app) ->
@@ -51,15 +52,21 @@ module.exports = (app) ->
 
   if config.env == 'production'
     scripts = uglifyJS scripts
-    vendorScripts = uglifyJS vendorScripts
+
+    vendorScripts = uglifyJS vendorScripts,
+      mangle: true
 
   styles = concat styles,
     inputFiles: ['**/*.css']
     outputFile: '/app.css'
 
-  mergeTrees [
+  merged = mergeTrees [
     html
     scripts
     vendorScripts
     styles
   ]
+
+  assetRev merged,
+    extensions: ['js', 'css', 'png', 'jpg', 'gif']
+    replaceExtensions: ['html', 'css', 'js']
