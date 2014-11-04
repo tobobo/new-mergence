@@ -1,5 +1,3 @@
-_ = require 'underscore'
-
 module.exports = (app) ->
 
   Model = require './shared/model'

@@ -1,11 +1,13 @@
 module.exports = (env) ->
   port = process.env.PORT or 8000
+  root = __dirname
   env: env
-  root: __dirname
+  root: root
   port: port
+  serverListenMessage: "listening on port #{port}..." 
   url: process.env.MERGENCE_URL or "http://localhost:#{port}"
   build:
-    directory: __dirname + '/dist'
+    directory: './dist'
     vendorScriptFiles:
       'bower_components': [
         'socket.io-client/socket.io.js',

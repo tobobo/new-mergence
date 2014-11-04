@@ -19,6 +19,7 @@ module.exports = (grunt) ->
           node_env: 'development'
           port: config.port
           opts: ['node_modules/coffee-script/bin/coffee']
+          output: config.serverListenMessage
           script: 'server.coffee'
 
       production:
@@ -26,6 +27,7 @@ module.exports = (grunt) ->
           node_env: 'production'
           port: config.port
           opts: ['node_modules/coffee-script/bin/coffee']
+          output: config.serverListenMessage
           script: 'server.coffee'
           background: false
 
