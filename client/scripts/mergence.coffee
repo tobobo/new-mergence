@@ -42,7 +42,7 @@ module.exports = (app) ->
 
       filterLFO.start()
 
-      @set 'envelope', new Tone.Envelope(0.5, 4.5, 0.15, 0.4)
+      @set 'envelope', new Tone.Envelope(0.5, 4.5, 0.15, 3)
       @get('envelope').connect @get('osc').output.gain
       lowpass.toMaster()
       @get('osc').start()
