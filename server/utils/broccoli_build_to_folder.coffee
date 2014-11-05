@@ -28,10 +28,10 @@ module.exports = (brocfilePath, directory) ->
     timer.time 'fs'
 
     console.log chalk.green(
-      "\nbuild succeeded in #{timer.total}ms
-      (load #{timer.load}ms,
-      broccoli #{timer.broccoli}ms,
-      fs #{timer.fs}ms)"
+      "\nbuild succeeded in #{timer.total}ms " +
+      "(load #{timer.load}ms, " +
+      "broccoli #{timer.broccoli}ms, " +
+      "fs #{timer.fs}ms)"
     )
     printSlowTrees hash.graph
 
