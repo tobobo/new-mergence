@@ -11,7 +11,9 @@ module.exports = class TimerSequence
     now = new Date()
     diff = now - @_lastTime
     if name
-      @[name] = diff
+      @[name] = @[name] or 0
+      @[name] += diff
+      
     @total += diff
     @_lastTime = now
     diff
