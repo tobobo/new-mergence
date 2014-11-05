@@ -1,42 +1,43 @@
 broccoli = require 'broccoli'
 RSVP = require 'rsvp'
 chalk = require 'chalk'
-rimraf = RSVP.denodeify require('rimraf')
+rimraf = require('rimraf')
 fs = require 'fs'
 copyDereferenceSync = require('copy-dereference').sync
 printSlowTrees = require 'broccoli-slow-trees'
 TimerSequence = require '../../shared/timer_sequence'
 
-module.exports = (tree, directory) ->
-  builder = new broccoli.Builder(tree);
-
+module.exports = (brocfilePath, directory) ->
   timer = new TimerSequence().start()
   buildHash = null
 
   RSVP.resolve()
   .then ->
-    if fs.existsSync directory
-      rimraf directory
+    tree = require brocfilePath
+    builder = new broccoli.Builder(tree);
+    timer.time 'load'
 
-  .then ->
-    timer.time 'fs'
     builder.build()
 
   .then (hash) ->
-    buildHash = hash
     timer.time 'broccoli'
 
+    if fs.existsSync directory
+      rimraf.sync directory
     fs.symlinkSync hash.directory, directory
-
-  .then ->
     timer.time 'fs'
-    RSVP.resolve ->
-      console.log chalk.green("\nbuild successful #{timer.total}ms (broccoli #{timer.broccoli}ms, fs #{timer.fs}ms)")
-      printSlowTrees buildHash.graph
+
+    console.log chalk.green(
+      "\nbuild succeeded in #{timer.total}ms
+      (load #{timer.load}ms,
+      broccoli #{timer.broccoli}ms,
+      fs #{timer.fs}ms)"
+    )
+    printSlowTrees hash.graph
 
   .catch (error) ->
     console.log chalk.red('error building client files')
-    if error.stack?
+    if error?.stack?
       console.log error.stack
     else if error?
       console.log error
