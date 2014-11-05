@@ -1,5 +1,8 @@
+socketIO = require('socket.io')
+
 module.exports = (app) ->
-  io = require('socket.io') app.get('http')
+  io = socketIO app.get('server')
+  app.set 'io', io
 
   io.on 'connection', (socket) ->
     console.log "#{socket.id} connected"

@@ -3,13 +3,16 @@ RSVP = require 'rsvp'
 chalk = require 'chalk'
 rimraf = require('rimraf')
 fs = require 'fs'
+path = require 'path'
 copyDereferenceSync = require('copy-dereference').sync
 printSlowTrees = require 'broccoli-slow-trees'
-TimerSequence = require './util/timer_sequence'
+TimerSequence = require '../util/timer_sequence'
 
-module.exports = (brocfilePath, directory) ->
+module.exports = (app) ->
+  config = app.get('config')
+  brocfilePath = path.join(config.root, 'Brocfile')
+
   timer = new TimerSequence().start()
-  buildHash = null
 
   RSVP.resolve()
   .then ->
@@ -22,18 +25,16 @@ module.exports = (brocfilePath, directory) ->
   .then (hash) ->
     timer.time 'broccoli'
 
-    if fs.existsSync directory
-      rimraf.sync directory
-    fs.symlinkSync hash.directory, directory
-    timer.time 'fs'
-
     console.log chalk.green(
       "\nbuild succeeded in #{timer.total}ms " +
       "(load #{timer.load}ms, " +
-      "broccoli #{timer.broccoli}ms, " +
-      "fs #{timer.fs}ms)"
+      "broccoli #{timer.broccoli}ms)"
     )
     printSlowTrees hash.graph
+
+    app.set 'buildPath', hash.directory
+
+    RSVP.resolve app.get('buildPath')
 
   .catch (error) ->
     console.log chalk.red('error building client files')

@@ -9,7 +9,6 @@ module.exports = (env) ->
   serverListenMessage: "listening on port #{port}..."
   url: process.env.MERGENCE_URL or "http://localhost:#{port}"
   build:
-    path: 'app/dist'
     vendorScriptFiles:
       'bower_components': [
         'socket.io-client/socket.io.js',

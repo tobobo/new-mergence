@@ -11,11 +11,9 @@ module.exports = (grunt) ->
     watch:
       server:
         files: [
-          'client/**/*',
-          'server/**/*',
-          'shared/**/*',
+          'app/**/*',
           'config.coffee',
-          'server.coffee',
+          'index.coffee',
           'Brocfile.coffee',
           'Gruntfile.coffee'
         ]
