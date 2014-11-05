@@ -26,7 +26,7 @@ module.exports = (tree, directory) ->
     buildHash = hash
     timer.time 'broccoli'
 
-    fs.linkSync hash.directory, directory
+    fs.symlinkSync hash.directory, directory
 
   .then ->
     timer.time 'fs'
