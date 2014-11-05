@@ -54,7 +54,7 @@ module.exports = (app) ->
       @get('envelope').triggerRelease()
 
     initColor: Model.on 'init', ->
-      @set 'backgroundColor', 'FFFFFF'
+      @set 'backgroundColor', '000000'
 
     initClickEvents: Model.on 'init', ->
       window.addEventListener "click", @handleClick.bind(@)
@@ -75,14 +75,13 @@ module.exports = (app) ->
       @get('socket').emit "click"
 
     someoneClicked: ->
-      @toggleBackgroundColor()
-
       @triggerAttack()
 
       if @get 'noteOn'
         @clearNoteTimeout()
         @setNoteTimeout()
       else
+        @set 'backgroundColor', 'FFFFFF'
         @set 'noteOn', true
         @setNoteTimeout()
 
@@ -90,17 +89,12 @@ module.exports = (app) ->
       noteTimeout = setTimeout =>
         @noteOn = false
         @triggerRelease();
+        @set 'backgroundColor', '000000'
       , 15000
       @set 'noteTimeout', noteTimeout
 
     clearNoteTimeout: ->
       clearTimeout @get('noteTimeout')
-
-    toggleBackgroundColor: ->
-      if @get('backgroundColor') == 'FFFFFF'
-        @set 'backgroundColor', '000000'
-      else
-        @set 'backgroundColor', 'FFFFFF'
 
     updateWindowBackgroundColor: Model.observe 'backgroundColor', ->
       document.body.style.backgroundColor = "##{@get('backgroundColor')}"
