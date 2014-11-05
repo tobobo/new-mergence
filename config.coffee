@@ -5,11 +5,11 @@ module.exports = (env) ->
   env: env
   root: root
   port: port
-  server: 'server.coffee'
+  server: 'index.coffee'
   serverListenMessage: "listening on port #{port}..."
   url: process.env.MERGENCE_URL or "http://localhost:#{port}"
   build:
-    directory: './dist'
+    path: 'app/dist'
     vendorScriptFiles:
       'bower_components': [
         'socket.io-client/socket.io.js',

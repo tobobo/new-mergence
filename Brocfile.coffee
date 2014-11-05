@@ -9,7 +9,7 @@ browserify = require 'broccoli-browserify'
 uglifyJS = require 'broccoli-uglify-js'
 replace = require 'broccoli-string-replace'
 assetRev = require 'broccoli-asset-rev'
-fileListFromObject = require './server/utils/file_list_from_object'
+fileListFromObject = require './app/util/file_list_from_object'
 
 config = require('./config')()
 
@@ -20,38 +20,39 @@ toneFiles = buildOptions.toneFiles or []
 
 vendorFileList = fileListFromObject vendorScriptFiles
 
-shared = buildOptions.shared or 'shared'
-scripts = buildOptions.scripts or 'client/scripts'
-styles = buildOptions.styles or 'client/styles'
+common = buildOptions.common or 'app/common'
+client = buildOptions.client or 'app/client'
+scripts = buildOptions.scripts or path.join(client, 'scripts')
+styles = buildOptions.styles or path.join(client, 'styles')
 
 # pick HTML files
 
-html = pickFiles 'client',
+html = pickFiles client,
   srcDir: '/'
   files: ['**/*.html']
   destDir: '/'
 
 
-# prepare shared files
+# prepare common files
 
-sharedFileList = glob.sync(path.join(shared, '**/*')).map (filename) ->
-  path.relative shared, filename
+commonFileList = glob.sync(path.join(common, '**/*')).map (filename) ->
+  path.relative common, filename
 
-shared = replace shared,
-  files: sharedFileList
+common = replace common,
+  files: commonFileList
   patterns: [
     match: /#server[\s\S]+#\/server/g
     replacement: ''
   ]
 
-wrappedShared = pickFiles shared,
+wrappedCommon = pickFiles common,
   srcDir: '/'
-  destDir: '/shared'
+  destDir: '/common'
 
 
-# merge shared files with scripts
+# merge common files with scripts
 
-scripts = mergeTrees [wrappedShared, scripts]
+scripts = mergeTrees [wrappedCommon, scripts]
 
 
 # prepare app scripts
@@ -59,7 +60,7 @@ scripts = mergeTrees [wrappedShared, scripts]
 scripts = filterCoffeescript scripts
 
 scripts = browserify scripts,
-  entries: ['./app']
+  entries: ['./index']
   outputFile: './app.js'
 
 

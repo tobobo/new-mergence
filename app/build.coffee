@@ -5,7 +5,7 @@ rimraf = require('rimraf')
 fs = require 'fs'
 copyDereferenceSync = require('copy-dereference').sync
 printSlowTrees = require 'broccoli-slow-trees'
-TimerSequence = require '../../shared/timer_sequence'
+TimerSequence = require './util/timer_sequence'
 
 module.exports = (brocfilePath, directory) ->
   timer = new TimerSequence().start()

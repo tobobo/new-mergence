@@ -1,6 +1,6 @@
 module.exports = (app) ->
 
-  Model = require './shared/model'
+  Model = require './common/model'
 
   class Mergence extends Model
     initSocket: Model.on 'init', ->

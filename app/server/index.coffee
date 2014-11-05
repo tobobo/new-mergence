@@ -16,8 +16,8 @@ module.exports = (config) ->
 
   app.use compression()
 
-  buildDirectory = path.join config.root, config.build.directory
-  app.use express.static(path.join(buildDirectory, 'assets'), { maxAge: 86400000 })
-  app.use express.static(buildDirectory, { maxAge: 0 })
+  buildPath = path.join config.root, config.build.path
+  app.use express.static(path.join(buildPath, 'assets'), { maxAge: 86400000 })
+  app.use express.static(buildPath, { maxAge: 0 })
 
   module.exports = app
