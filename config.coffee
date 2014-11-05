@@ -17,6 +17,6 @@ module.exports = (env) ->
         'tone/Tone':
           'core': ['Tone.js', 'Master.js']
           'source': ['Source.js', 'Oscillator.js']
-          'signal': ['Signal.js']
-          'component': ['Envelope.js']
+          'signal': ['Signal.js', 'Add.js', 'Multiply.js', 'Scale.js']
+          'component': ['Envelope.js', 'Filter.js', 'LFO.js']
       ]
