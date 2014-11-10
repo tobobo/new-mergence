@@ -5,8 +5,8 @@ module.exports = (env) ->
   env: env
   root: root
   port: port
-  server: 'index.coffee'
-  serverListenMessage: "listening on port #{port}..."
+  server: 'index.js'
+  serverListenMessage: "server listening on port #{port}..."
   url: process.env.MERGENCE_URL or "http://localhost:#{port}"
   build:
     vendorScriptFiles:

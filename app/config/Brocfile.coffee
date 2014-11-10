@@ -9,9 +9,9 @@ browserify = require 'broccoli-browserify'
 uglifyJS = require 'broccoli-uglify-js'
 replace = require 'broccoli-string-replace'
 assetRev = require 'broccoli-asset-rev'
-fileListFromObject = require './app/util/file_list_from_object'
+fileListFromObject = require '../util/file_list_from_object'
 
-config = require('./config')()
+config = require('../../config')()
 
 buildOptions = config?.build or {}
 
@@ -25,7 +25,7 @@ client = buildOptions.client or 'app/client'
 scripts = buildOptions.scripts or path.join(client, 'scripts')
 styles = buildOptions.styles or path.join(client, 'styles')
 
-# pick HTML files
+# seperate HTML files
 
 html = pickFiles client,
   srcDir: '/'
@@ -33,7 +33,7 @@ html = pickFiles client,
   destDir: '/'
 
 
-# prepare common files
+# prepare common script files
 
 commonFileList = glob.sync(path.join(common, '**/*')).map (filename) ->
   path.relative common, filename
