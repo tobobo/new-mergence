@@ -1,10 +1,7 @@
 broccoli = require 'broccoli'
 RSVP = require 'rsvp'
 chalk = require 'chalk'
-rimraf = require('rimraf')
-fs = require 'fs'
 path = require 'path'
-copyDereferenceSync = require('copy-dereference').sync
 printSlowTrees = require 'broccoli-slow-trees'
 TimerSequence = require '../util/timer_sequence'
 
