@@ -3,9 +3,6 @@ module.exports = (grunt) ->
 
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-express-server'
-  grunt.loadNpmTasks 'grunt-contrib-clean'
-
-  coffeePath = 'node_modules/coffee-script/bin/coffee'
 
   grunt.initConfig
     watch:
