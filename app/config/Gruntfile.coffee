@@ -4,6 +4,8 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-express-server'
 
+  coffeePath = 'node_modules/.bin/coffee'
+
   grunt.initConfig
     watch:
       server:
@@ -24,6 +26,7 @@ module.exports = (grunt) ->
         options:
           node_env: 'development'
           port: config.port
+          opts: [coffeePath]
           output: config.serverListenMessage or 'listening'
           script: config.server
 
@@ -31,6 +34,7 @@ module.exports = (grunt) ->
         options:
           node_env: 'production'
           port: config.port
+          opts: [coffeePath]
           output: config.serverListenMessage or 'listening'
           script: config.server
           background: false

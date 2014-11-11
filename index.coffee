@@ -1,7 +1,5 @@
-require('coffee-script/register');
+config = require('./config')()
 
-var config = require('./config')();
+app = require('./app')(config)
 
-var app = require('./app')(config);
-
-app.get('start')();
+app.get('start')()
