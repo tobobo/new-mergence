@@ -13,7 +13,11 @@ module.exports = (app) ->
 
   RSVP.resolve()
   .then ->
+    
+    # load brocfile
     tree = require brocfilePath
+    
+    # init Broccoli builder
     builder = new broccoli.Builder(tree);
     timer.time 'load'
 
@@ -30,7 +34,8 @@ module.exports = (app) ->
     printSlowTrees hash.graph
 
     app.set 'buildPath', hash.directory
-
+    
+    # return directory with build files
     RSVP.resolve app.get('buildPath')
 
   .catch (error) ->
